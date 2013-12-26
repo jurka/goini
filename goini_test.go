@@ -23,12 +23,28 @@ func TestPlainConfig(t *testing.T) {
 			t.Errorf("Section not found: %s", x)
 		}
 	}
-	v := c.GetSection("production")
+	v := c.GetSection("testing")
 	if v.Len() == 0 {
-		t.Error("No keys inside production section")
+		t.Error("No keys inside testing section")
 	}
+
 	if val, _ := v.GetString("resources.mq.host"); val != "some.super.example.com" {
 		t.Error("GetString method failed")
+	}
+	if val, _ := v.GetString("string"); val != "foo-bar-baz" {
+		t.Error("GetString method failed on " + "string")
+	}
+	if val, _ := v.GetString("single_string"); val != "foo-bar-baz" {
+		t.Error("GetString method failed on " + "single_string")
+	}
+	if val, _ := v.GetString("double_string"); val != "foo-bar-baz" {
+		t.Error("GetString method failed on " + "double_string")
+	}
+	if val, _ := v.GetString("multy_string"); val != "foo-\nbar-\nbaz" {
+		t.Error("GetString method failed on " + "multy_string")
+	}
+	if val, _ := v.GetString("last_key"); val != "last_key_val" {
+		t.Error("GetString method failed on " + "last_key")
 	}
 	if val, _ := v.GetInt("resources.mq.port"); val != 5672 {
 		t.Error("GetInt method failed")

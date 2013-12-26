@@ -91,12 +91,21 @@ func (cfg *Config) GetSectionList() []string {
 	return a
 }
 
+// Get value as a string, remove quotes if value was quoted into " or '
 func (o *OptionsMap) GetString(k key) (string, error) {
 	value, exist := o.data[k]
 	if !exist {
 		return "", errors.New(ERR_KEY_NOT_EXISTS)
 	}
-	return string(value), nil
+	rawString := string(value)
+	if len(rawString) > 1 {
+		if rawString[0] == '\'' && rawString[len(rawString)-1] == '\'' {
+			rawString = rawString[1 : len(rawString)-1]
+		} else if rawString[0] == '"' && rawString[len(rawString)-1] == '"' {
+			rawString = rawString[1 : len(rawString)-1]
+		}
+	}
+	return rawString, nil
 }
 
 func (o *OptionsMap) GetBool(k key) (bool, error) {

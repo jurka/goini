@@ -38,10 +38,12 @@ func (cfg *Config) read(buf *bufio.Reader) error {
 
 	for {
 		l, err := buf.ReadString('\n') // parse line-by-line
-		if err == io.EOF {
-			break
-		} else if err != nil {
-			return err
+		if err != nil {
+			if err != io.EOF {
+				return err
+			} else if len(l) == 0 {
+				break
+			}
 		}
 
 		l = strings.TrimSpace(l)
