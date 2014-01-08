@@ -5,7 +5,7 @@ import (
 )
 
 func TestPlainConfig(t *testing.T) {
-	c, err := goini.LoadConfig("plain_test.ini")
+	c, err := LoadConfig("plain_test.ini")
 	if err != nil {
 		t.Errorf("Got an unexpected error: %v", err)
 	}
@@ -54,7 +54,7 @@ func TestPlainConfig(t *testing.T) {
 }
 
 func TestInheritanceConfig(t *testing.T) {
-	c, err := goini.LoadConfig("inheritance_test.ini")
+	c, err := LoadConfig("inheritance_test.ini")
 	if err != nil {
 		t.Errorf("Got an unexpected error: %v", err)
 	}
@@ -88,7 +88,7 @@ func TestInheritanceConfig(t *testing.T) {
 		t.Error("Can not get parent option")
 	}
 
-	if _, err := v.GetString("not_found_option"); err.Error() != goini.ERR_KEY_NOT_EXISTS {
+	if _, err := v.GetString("not_found_option"); err.Error() != ERR_KEY_NOT_EXISTS {
 		t.Error("Can not get parent option")
 	}
 
