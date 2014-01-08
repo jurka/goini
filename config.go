@@ -92,8 +92,8 @@ func (cfg *Config) GetSectionList() []string {
 }
 
 // Get value as a string, remove quotes if value was quoted into " or '
-func (o *OptionsMap) GetString(k key) (string, error) {
-	value, exist := o.data[k]
+func (o *OptionsMap) GetString(k string) (string, error) {
+	value, exist := o.data[key(k)]
 	if !exist {
 		return "", errors.New(ERR_KEY_NOT_EXISTS)
 	}
@@ -108,8 +108,26 @@ func (o *OptionsMap) GetString(k key) (string, error) {
 	return rawString, nil
 }
 
-func (o *OptionsMap) GetBool(k key) (bool, error) {
-	sv, exists := o.data[k]
+// synonym for GetString
+func (o *OptionsMap) String(k string) (string, error) {
+	return o.GetString(k)
+}
+
+// Get value as a bool, uses this mapping from string to bool
+// "t":     true,
+// "true":  true,
+// "y":     true,
+// "yes":   true,
+// "on":    true,
+// "1":     true,
+// "f":     false,
+// "false": false,
+// "n":     false,
+// "no":    false,
+// "off":   false,
+// "0":     false,
+func (o *OptionsMap) GetBool(k string) (bool, error) {
+	sv, exists := o.data[key(k)]
 	if !exists {
 		return false, errors.New(ERR_KEY_NOT_EXISTS)
 	}
@@ -122,6 +140,12 @@ func (o *OptionsMap) GetBool(k key) (bool, error) {
 	return value, nil
 }
 
+// synonym for GetBool
+func (o *OptionsMap) Bool(k string) (bool, error) {
+	return o.GetBool(k)
+}
+
+// Get value as int
 func (o *OptionsMap) GetInt(k string) (int, error) {
 	sv, exists := o.data[key(k)]
 	if exists {
@@ -131,6 +155,12 @@ func (o *OptionsMap) GetInt(k string) (int, error) {
 	return 0, errors.New(ERR_KEY_NOT_EXISTS)
 }
 
+// synonym for GetInt
+func (o *OptionsMap) Int(k string) (int, error) {
+	return o.GetInt(k)
+}
+
+// Get value as float64
 func (o *OptionsMap) GetFloat(k string) (float64, error) {
 	sv, exitsts := o.data[key(k)]
 	if exitsts {
@@ -138,4 +168,9 @@ func (o *OptionsMap) GetFloat(k string) (float64, error) {
 	}
 
 	return 0, errors.New(ERR_KEY_NOT_EXISTS)
+}
+
+// synonym for GetFloat
+func (o *OptionsMap) Float64(k string) (float64, error) {
+	return o.GetFloat(k)
 }
