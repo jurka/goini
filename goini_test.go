@@ -1,7 +1,6 @@
-package goini_test
+package goini
 
 import (
-	"goini"
 	"testing"
 )
 
